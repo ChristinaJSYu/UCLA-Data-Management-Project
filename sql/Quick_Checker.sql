@@ -1,0 +1,39 @@
+USE DATABASE NYC_HOUSING_DB;
+USE SCHEMA STAGING;
+
+SELECT '311' AS table_name, COUNT(*) AS row_count
+FROM NYC_HOUSING_DB.STAGING.stg_311_data
+UNION ALL
+SELECT 'Census' AS table_name, COUNT(*) AS row_count
+FROM NYC_HOUSING_DB.STAGING.stg_census_data
+UNION ALL
+SELECT 'Zillow' AS table_name, COUNT(*) AS row_count
+FROM NYC_HOUSING_DB.STAGING.stg_zillow_data;
+
+SELECT * FROM NYC_HOUSING_DB.STAGING.stg_311_data LIMIT 10;
+SELECT * FROM NYC_HOUSING_DB.STAGING.stg_census_data LIMIT 10;
+SELECT * FROM NYC_HOUSING_DB.STAGING.stg_zillow_data LIMIT 10;
+
+SELECT COUNT(*) AS null_zip_311
+FROM NYC_HOUSING_DB.STAGING.stg_311_data
+WHERE incident_zip IS NULL;
+
+SELECT COUNT(*) AS null_zip_census
+FROM NYC_HOUSING_DB.STAGING.stg_census_data
+WHERE zip_code IS NULL;
+
+SELECT COUNT(*) AS null_zip_zillow
+FROM NYC_HOUSING_DB.STAGING.stg_zillow_data
+WHERE zip_code IS NULL;
+
+SELECT DISTINCT data_year
+FROM NYC_HOUSING_DB.STAGING.stg_census_data
+ORDER BY data_year;
+
+SELECT DISTINCT year
+FROM NYC_HOUSING_DB.STAGING.stg_zillow_data
+ORDER BY year;
+
+SELECT DISTINCT YEAR(created_date) AS year
+FROM NYC_HOUSING_DB.STAGING.stg_311_data
+ORDER BY year;
